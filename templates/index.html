@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imágenes de Tumores</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            text-align: center;
+        }
+        .image-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .image-container img {
+            width: 300px;
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h2>Imágenes de Tumores</h2>
+    <div class="image-container">
+        {% for image in images %}
+            <img src="{{ image }}" alt="Tumor Image">
+        {% endfor %}
+    </div>
+    <button id="change-images-button">Cambiar Imágenes</button>
+
+    <script>
+        $(document).ready(function(){
+            $("#change-images-button").click(function(){
+                $.get("/next_images", function(data){
+                    // Actualizamos las imágenes con las nuevas imágenes seleccionadas
+                    $(".image-container img").each(function(index){
+                        $(this).attr("src", data.images[index]);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
